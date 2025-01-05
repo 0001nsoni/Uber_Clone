@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET); // Ensure JWT_SECRET is set
     return token;
 };
 userSchema.methods.comparePassword = async function (password) {
