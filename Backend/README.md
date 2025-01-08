@@ -291,3 +291,148 @@ Example:
 #### Status Codes
 - `201 Created`: The captain was successfully registered.
 - `400 Bad Request`: The request was invalid or the email already exists.
+
+### POST /captain/login
+
+#### Description
+This endpoint is used to log in an existing captain.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+- `email`: A string representing the captain's email. It must be a valid email address.
+- `password`: A string representing the captain's password. It must be at least 6 characters long.
+
+Example:
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain successfully logged in.
+  - **Body**: A JSON object containing the authentication token and captain details.
+  - **Example**:
+    ```json
+    {
+      "token": "your-auth-token",
+      "captain": {
+        "_id": "captain-id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "vehicle": {
+          "color": "red",
+          "plate": "MP 04 XV 6203",
+          "capacity": 3,
+          "vehicleType": "car"
+        }
+      }
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Invalid email or password.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Invalid Email or Password"
+    }
+    ```
+
+#### Status Codes
+- `200 OK`: The captain was successfully logged in.
+- `400 Bad Request`: The email or password was incorrect.
+
+### GET /captain/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated captain.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain profile retrieved successfully.
+  - **Body**: A JSON object containing the captain details.
+  - **Example**:
+    ```json
+    {
+      "captain": {
+        "_id": "captain-id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "vehicle": {
+          "color": "red",
+          "plate": "MP 04 XV 6203",
+          "capacity": 3,
+          "vehicleType": "car"
+        }
+      }
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: No token provided or invalid token.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Access denied. No token provided."
+    }
+    ```
+    or
+    ```json
+    {
+      "message": "Invalid token."
+    }
+    ```
+
+#### Status Codes
+- `200 OK`: The captain profile was successfully retrieved.
+- `401 Unauthorized`: The token was not provided or was invalid.
+
+### GET /captain/logout
+
+#### Description
+This endpoint is used to log out the authenticated captain.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain successfully logged out.
+  - **Body**: A JSON object containing a success message.
+  - **Example**:
+    ```json
+    {
+      "message": "Logout successfully"
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: No token provided or invalid token.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Access denied. No token provided."
+    }
+    ```
+    or
+    ```json
+    {
+      "message": "Invalid token."
+    }
+    ```
+
+#### Status Codes
+- `200 OK`: The captain was successfully logged out.
+- `401 Unauthorized`: The token was not provided or was invalid.
