@@ -203,3 +203,91 @@ This endpoint is used to log out the authenticated user.
 #### Status Codes
 - `200 OK`: The user was successfully logged out.
 - `401 Unauthorized`: The token was not provided or was invalid.
+
+### POST /captain/register
+
+#### Description
+This endpoint is used to register a new captain.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+- `fullname`: An object containing the captain's first name and last name.
+  - `firstname`: A string representing the captain's first name. It must be at least 3 characters long.
+  - `lastname`: A string representing the captain's last name. It must be at least 3 characters long.
+- `email`: A string representing the captain's email. It must be a valid email address.
+- `password`: A string representing the captain's password. It must be at least 6 characters long.
+- `vehicle`: An object containing the vehicle details.
+  - `color`: A string representing the vehicle's color. It must be at least 3 characters long.
+  - `plate`: A string representing the vehicle's plate number. It must be at least 3 characters long.
+  - `capacity`: An integer representing the vehicle's capacity. It must be at least 1.
+  - `vehicleType`: A string representing the vehicle type. It must be one of `auto`, `car`, or `motorcycle`.
+
+Example:
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "red",
+    "plate": "MP 04 XV 6203",
+    "capacity": 3,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Responses
+
+- **201 Created**
+  - **Description**: Captain successfully registered.
+  - **Body**: A JSON object containing the authentication token and captain details.
+  - **Example**:
+    ```json
+    {
+      "token": "your-auth-token",
+      "captain": {
+        "_id": "captain-id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "vehicle": {
+          "color": "red",
+          "plate": "MP 04 XV 6203",
+          "capacity": 3,
+          "vehicleType": "car"
+        }
+      }
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Invalid input or email already exists.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid Email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+    or
+    ```json
+    {
+      "error": "Captain already exists"
+    }
+    ```
+
+#### Status Codes
+- `201 Created`: The captain was successfully registered.
+- `400 Bad Request`: The request was invalid or the email already exists.
