@@ -13,5 +13,7 @@ router.post('/login',[
     body('password').isLength({min:6}).withMessage('Password must be 6 characters long')
 ],
 userController.loginUser);
+router.get('/profile',userController.getUserProfile);
+router.get('/logout',userController.logoutUser);
 
 module.exports = router;

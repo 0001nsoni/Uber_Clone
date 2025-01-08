@@ -124,3 +124,82 @@ Example:
 #### Status Codes
 - `200 OK`: The user was successfully logged in.
 - `401 Unauthorized`: The email or password was incorrect.
+
+### GET /user/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated user.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User profile retrieved successfully.
+  - **Body**: A JSON object containing the user details.
+  - **Example**:
+    ```json
+    {
+      "_id": "user-id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com"
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: No token provided or invalid token.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Access denied. No token provided."
+    }
+    ```
+    or
+    ```json
+    {
+      "message": "Invalid token."
+    }
+    ```
+
+#### Status Codes
+- `200 OK`: The user profile was successfully retrieved.
+- `401 Unauthorized`: The token was not provided or was invalid.
+
+### GET /user/logout
+
+#### Description
+This endpoint is used to log out the authenticated user.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User successfully logged out.
+  - **Body**: A JSON object containing a success message.
+  - **Example**:
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: No token provided or invalid token.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Access denied. No token provided."
+    }
+    ```
+    or
+    ```json
+    {
+      "message": "Invalid token."
+    }
+    ```
+
+#### Status Codes
+- `200 OK`: The user was successfully logged out.
+- `401 Unauthorized`: The token was not provided or was invalid.
