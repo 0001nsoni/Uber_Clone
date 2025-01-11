@@ -1,17 +1,31 @@
-import { useState, useEffect } from 'react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { UserDataContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function UserLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [userData, setUserData] = useState({});
+    const { userData, setUserData } = useContext(UserDataContext);
+    const navigate = useNavigate();
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         const newUserData = { email: email, password: password };
         setUserData(newUserData);
-        
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, newUserData);
+            if (response.status === 200) {
+                const data = response.data;
+                setUserData(data.user);
+                localStorage.setItem('token', data.token);
+                navigate('/home');
+            }
+        } catch (error) {
+            console.error("Error during user login:", error);
+        }
         setEmail('');
         setPassword('');
     }
@@ -35,5 +49,7 @@ function UserLogin() {
                 <Link to={'/captain-login'} className='bg-[#10b461] flex items-center justify-center mb-7 text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg'>Sign in as Captain</Link>
             </div>
         </div>
-    )
-}export default UserLogin
+    );
+}
+
+export default UserLogin;
