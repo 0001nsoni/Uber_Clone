@@ -10,7 +10,7 @@ import CaptainHome from "./pages/CaptainHome";
 import UserLogout from "./pages/UserLogout";
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import CaptainProtectedWrapper from "./pages/CaptainProtectedWrapper";
-import CaptainLogout from "./pages/CaptainLogut"; // Correct import
+import CaptainLogout from "./pages/CaptainLogut"
 
 const App = () => {
   return (
