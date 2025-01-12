@@ -10,11 +10,12 @@ import CaptainHome from "./pages/CaptainHome";
 import UserLogout from "./pages/UserLogout";
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import CaptainProtectedWrapper from "./pages/CaptainProtectedWrapper";
-import CaptainLogout from "./pages/CaptainLogut"
+import CaptainLogout from "./pages/CaptainLogut";
+import CaptainContext from './context/CaptainContext';  // Import the CaptainContext
 
 const App = () => {
   return (
-    <div>
+    <CaptainContext>
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/home" element={
@@ -34,7 +35,7 @@ const App = () => {
         } />
         <Route path='/captain-logout' element={<CaptainLogout />} />
       </Routes>
-    </div>
+    </CaptainContext>
   );
 };
 

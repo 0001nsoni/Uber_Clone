@@ -1,26 +1,50 @@
-import React, { useContext, useEffect } from 'react';
-import { UserDataContext } from '../context/UserContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { CaptainDataContext } from '../context/CaptainContext'; // Corrected import name
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const UserProtectedWrapper = ({ children }) => {
+const CaptainProtectedWrapper = ({ children }) => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
+    const { setCaptain } = useContext(CaptainDataContext); // Destructure context correctly
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!token) {
-            navigate('/login');
+            navigate('/captain-login');
+            return;
         }
-    }, [token, navigate]);
 
-    if (!token) {
-        return null; // or a loading spinner
+        const fetchCaptainProfile = async () => {
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_BASE_URL}/captain/profile`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    setCaptain(response.data.captain);
+                }
+            } catch (err) {
+                console.error('Error fetching captain profile:', err);
+                localStorage.removeItem('token');
+                navigate('/captain-login');
+            } finally {
+                setIsLoading(false); // Ensure loading stops regardless of success or failure
+            }
+        };
+
+        fetchCaptainProfile();
+    }, [token, navigate, setCaptain]); // Added necessary dependencies
+
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
-    return (
-        <div>
-            {children}
-        </div>
-    );
+    return <>{children}</>;
 };
 
-export default UserProtectedWrapper;
+export default CaptainProtectedWrapper;

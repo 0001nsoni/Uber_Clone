@@ -51,10 +51,22 @@ module.exports.loginCaptain = async (req, res, next) => {
 module.exports.getCaptainProfile = async (req, res, next) => {
     res.status(200).json({ captain: req.captain });
 }
-
 module.exports.logoutCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization.split(' ')[1];
-    await BlacklistToken.create({ token });
-    res.clearCookie('token');
-    res.status(200).json({ message: 'Logout successfully' });
-}
+
+    try {
+        // Check if the token is already blacklisted
+        const existingToken = await BlacklistToken.findOne({ token });
+
+        if (!existingToken) {
+            // If the token is not already blacklisted, add it
+            await BlacklistToken.create({ token });
+        }
+
+        // Clear the token cookie
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout successfully' });
+    } catch (error) {
+        next(error); // Handle any errors that occur
+    }
+};
