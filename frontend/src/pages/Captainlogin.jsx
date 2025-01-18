@@ -65,6 +65,7 @@ const Captainlogin = () => {
             }}
             required type="password"
             placeholder='password'
+            minLength={6}
           />
 
           <button

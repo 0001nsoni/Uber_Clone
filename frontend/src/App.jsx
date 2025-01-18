@@ -13,6 +13,7 @@ import CaptainProtectedWrapper from "./pages/CaptainProtectedWrapper";
 import CaptainLogout from "./pages/CaptainLogut";
 import CaptainContext from './context/CaptainContext';  // Import the CaptainContext
 import Riding from './pages/Riding'
+import CaptainRiding from "./pages/CaptainRiding";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           </CaptainProtectedWrapper>
         } />
         <Route path='/captain-logout' element={<CaptainLogout />} />
+      <Route path="/captain-Riding" element={<CaptainRiding/>}/>
       </Routes>
     </CaptainContext>
   );
