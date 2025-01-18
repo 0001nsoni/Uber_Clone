@@ -436,3 +436,167 @@ This endpoint is used to log out the authenticated captain.
 #### Status Codes
 - `200 OK`: The captain was successfully logged out.
 - `401 Unauthorized`: The token was not provided or was invalid.
+
+
+
+
+
+
+# Maps API Routes Documentation
+
+This document provides the details for the available API endpoints related to maps in the application.
+
+## Routes
+
+### 1. **GET `/get-coordinates`**
+
+#### Description
+This endpoint retrieves the geographic coordinates (latitude and longitude) of a given address.
+
+#### Query Parameters
+- `address`: A string representing the address you want to fetch coordinates for. It must be at least 3 characters long.
+
+#### Example Request:
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Coordinates successfully fetched.
+  - **Body**: A JSON object containing the latitude and longitude of the given address.
+  - **Example**:
+    ```json
+    {
+      "lat": 40.7128,
+      "lng": -74.0060
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: The `address` parameter is invalid or missing.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Address must be a string with a minimum length of 3 characters.",
+          "param": "address",
+          "location": "query"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: Internal server error, possibly due to a failure with the external geolocation service.
+
+---
+
+### 2. **GET `/get-distance-time`**
+
+#### Description
+This endpoint calculates the distance and travel time between two given locations (origin and destination).
+
+#### Query Parameters
+- `origin`: A string representing the starting location. It must be at least 3 characters long.
+- `destination`: A string representing the destination location. It must be at least 3 characters long.
+
+#### Example Request:
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Distance and travel time successfully fetched.
+  - **Body**: A JSON object containing the distance and duration between the origin and destination.
+  - **Example**:
+    ```json
+    {
+      "success": true,
+      "distance": "2,450 miles",
+      "duration": "40 hours"
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Either the `origin` or `destination` parameter is invalid or missing.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Origin must be a string with a minimum length of 3 characters.",
+          "param": "origin",
+          "location": "query"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: Internal server error, possibly due to a failure with the external distance service.
+
+---
+
+### 3. **GET `/get-suggestions`**
+
+#### Description
+This endpoint provides autocomplete suggestions for locations based on the input query.
+
+#### Query Parameters
+- `input`: A string representing the search query. It must be at least 3 characters long.
+
+#### Example Request:
+
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Autocomplete suggestions successfully fetched.
+  - **Body**: A JSON array containing the suggestions.
+  - **Example**:
+    ```json
+    [
+      {
+        "description": "New York, NY, USA",
+        "place_id": "ChIJOwg_06VPYjARJZPu5ryJ5Y4"
+      },
+      {
+        "description": "New Orleans, LA, USA",
+        "place_id": "ChIJM6dPZzIPIIYRv-_wzO9VxOs"
+      }
+    ]
+    ```
+
+- **400 Bad Request**
+  - **Description**: The `input` parameter is invalid or missing.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Input must be a string with a minimum length of 3 characters.",
+          "param": "input",
+          "location": "query"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: Internal server error, possibly due to a failure with the external autocomplete service.
+
+---
+
+### Status Codes
+
+- **200 OK**: The request was successful.
+- **400 Bad Request**: The request was invalid, missing required parameters, or had incorrect data.
+- **500 Internal Server Error**: There was an issue with the server or an external service.
+
+---
+
+**Note:** All of these routes require the `authUser` middleware to ensure the user is authenticated.
+
+
