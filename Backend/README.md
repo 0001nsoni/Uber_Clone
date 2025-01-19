@@ -619,7 +619,7 @@ This project provides an API for creating rides with pickup and destination deta
   
 ## API Endpoint
 
-### POST `/ride/create`
+### POST `/rides/create`
 
 This endpoint creates a new ride. It requires the following fields in the request body:
 
@@ -637,6 +637,7 @@ This endpoint creates a new ride. It requires the following fields in the reques
   "destination": "Aandhi, Rajasthan, India",
   "vehicleType": "car"
 }
+```
 
 #### Successful Response
 ```json
@@ -653,6 +654,7 @@ This endpoint creates a new ride. It requires the following fields in the reques
     "duration": 76,
     "__v": 0
 }
+```
 
 #### Error Response
 
@@ -666,3 +668,4 @@ This endpoint creates a new ride. It requires the following fields in the reques
     }
   ]
 }
+```
