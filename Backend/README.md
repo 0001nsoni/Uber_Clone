@@ -599,4 +599,70 @@ This endpoint provides autocomplete suggestions for locations based on the input
 
 **Note:** All of these routes require the `authUser` middleware to ensure the user is authenticated.
 
+# Ride Creation API
 
+This project provides an API for creating rides with pickup and destination details, along with fare calculation based on vehicle type (auto, car, motorcycle). The API ensures authentication and validation for each ride creation request.
+
+## Features
+
+- **Authentication**: Requires valid authentication to create a ride.
+- **Validation**: Ensures the pickup, destination, and vehicle type are valid.
+- **Fare Calculation**: Calculates fare based on vehicle type, distance, and time.
+
+## Technologies Used
+
+- **Node.js**: Backend runtime environment.
+- **Express.js**: Web framework for Node.js.
+- **Express Validator**: For request validation.
+- **JWT**: For authentication and token verification.
+- **MongoDB**: Database for storing ride data.
+  
+## API Endpoint
+
+### POST `/ride/create`
+
+This endpoint creates a new ride. It requires the following fields in the request body:
+
+#### Request Body
+
+- **pickup** (string): The pickup address (minimum length of 3 characters).
+- **destination** (string): The destination address (minimum length of 3 characters).
+- **vehicleType** (string): The type of vehicle for the ride. Accepted values are: `'auto'`, `'car'`, `'motorcycle'`.
+
+#### Example Request
+
+```json
+{
+  "pickup": "Aray College jaipur",
+  "destination": "Aandhi, Rajasthan, India",
+  "vehicleType": "car"
+}
+
+#### Successful Response
+```json
+{
+ "message": "Ride created successfully",
+  "ride": {
+    "_id": "678cb961c78a07850482b09b",
+    "user": "678207e858971e6aafb95bd8",
+    "pickup": "Aray College jaipur",
+    "destination": "Aandhi, Rajasthan, India",
+    "fare": 866,
+    "status": "pending",
+    "distance": 39.2,
+    "duration": 76,
+    "__v": 0
+}
+
+#### Error Response
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Pickup address",
+      "param": "pickup",
+      "location": "body"
+    }
+  ]
+}
