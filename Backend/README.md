@@ -437,10 +437,60 @@ This endpoint is used to log out the authenticated captain.
 - `200 OK`: The captain was successfully logged out.
 - `401 Unauthorized`: The token was not provided or was invalid.
 
+### GET /get-fare
 
+#### Description
+This endpoint calculates the fare between two given locations (pickup and destination).
 
+#### Query Parameters
+- `pickup`: A string representing the starting location. It must be at least 3 characters long.
+- `destination`: A string representing the destination location. It must be at least 3 characters long.
 
+#### Example Request:
 
+#### Responses
+
+- **200 OK**
+  - **Description**: Fare successfully calculated.
+  - **Body**: A JSON object containing the fare details.
+  - **Example**:
+    ```json
+    {
+      "success": true,
+      "fare": 500
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Either the `pickup` or `destination` parameter is invalid or missing.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Pickup must be a string with a minimum length of 3 characters.",
+          "param": "pickup",
+          "location": "query"
+        },
+        {
+          "msg": "Destination must be a string with a minimum length of 3 characters.",
+          "param": "destination",
+          "location": "query"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: Internal server error, possibly due to a failure with the external fare calculation service.
+
+#### Status Codes
+- `200 OK`: The fare was successfully calculated.
+- `400 Bad Request`: The request was invalid, missing required parameters, or had incorrect data.
+- `500 Internal Server Error`: There was an issue with the server or an external service.
+
+---
 
 # Maps API Routes Documentation
 

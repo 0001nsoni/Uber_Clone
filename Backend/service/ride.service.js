@@ -56,6 +56,7 @@ async function getFare(pickup, destination) {
 
     return { fare, distance, totalMinutes };  // Return distance and totalMinutes as well
 }
+module.exports.getFare=getFare;
 function getOtp(num)
 {
     function genrateOtp(num){

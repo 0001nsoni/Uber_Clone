@@ -17,9 +17,10 @@ const VehiclePanel = (props) => {
                     <p className='font-normal text-xs text-gray-600'>Affordable,compacts rides</p>
                 </div>
                 <h2 className='text-lg font-semibold'>
-                    ₹193.20
+                    ₹{props.fare.car}
                 </h2>
             </div>
+
             <div onClick={() => {
                 props.setConfirmRidePanel(true);
                 props.setVehiclePanel(false);
@@ -31,7 +32,8 @@ const VehiclePanel = (props) => {
                     <p className='font-normal text-xs text-gray-600'>Affordable,Motorcylce rides</p>
                 </div>
                 <h2 className='text-lg font-semibold'>
-                    ₹65
+                
+                ₹{props.fare.motorcycle}
                 </h2>
             </div>
             <div onClick={() => {
@@ -45,7 +47,8 @@ const VehiclePanel = (props) => {
                     <p className='font-normal text-xs text-gray-600'>Affordable,Auto rides</p>
                 </div>
                 <h2 className='text-lg font-semibold'>
-                    ₹118.6
+               
+                ₹{props.fare.auto}
                 </h2>
             </div>
         </div>
