@@ -17,6 +17,7 @@ const Home = () => {
   const LookRef = useRef(null);
   const waitingForDriverRef = useRef(null);
 
+
   const [pickup, setPickup] = useState('');
   const [destination, setDestination] = useState('');
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
@@ -27,6 +28,7 @@ const Home = () => {
   const [ConfirmRidePanel, setConfirmRidePanel] = useState(false);
   const [VechicleFound, setVehicleFound] = useState(false);
   const [WaitingForDriver, setWaitingForDriver] = useState(false);
+  const [fare,setFare]=useState({});
 
   useLayoutEffect(() => handleSlideAnimation(vechilePanelRef, vehiclePanel), [vehiclePanel]);
   useLayoutEffect(() => handleSlideAnimation(ConfirmRideRef, ConfirmRidePanel), [ConfirmRidePanel]);
@@ -94,10 +96,16 @@ const Home = () => {
     setActiveField('destination');
   };
 
-  function findTrip() {
+ async function findTrip() {
     setVehiclePanel(true);
     setPanelOpen(false);
-  }
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
+       params:{pickup,destination},
+       headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
+  })
+  console.log(response.data);
+setFare(response.data)
+}
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -155,7 +163,7 @@ const Home = () => {
         </div>
       </div>
       <div ref={vechilePanelRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
-        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+        <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
       </div>
       <div ref={ConfirmRideRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
         <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />

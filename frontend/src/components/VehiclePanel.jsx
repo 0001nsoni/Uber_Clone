@@ -1,8 +1,10 @@
 import React from 'react'
 
 const VehiclePanel = (props) => {
+   
     return (
         <div>
+            
             <h5 className='p-3 text-center w-[90%] top-0   absolute'> <i className='ri-arrow-down-wide-line text-3xl text-gray-300' onClick={() => { props.setVehiclePanel(false); }}></i></h5>
             <h3 className='font-bold text-2xl text-center mb-5 w-full '>
                 Choose your Ride</h3>
@@ -17,7 +19,7 @@ const VehiclePanel = (props) => {
                     <p className='font-normal text-xs text-gray-600'>Affordable,compacts rides</p>
                 </div>
                 <h2 className='text-lg font-semibold'>
-                    {/* ₹{props.fare.car} */}
+                    ₹{props.fare?.fare?.car}
                 </h2>
             </div>
 
@@ -33,7 +35,7 @@ const VehiclePanel = (props) => {
                 </div>
                 <h2 className='text-lg font-semibold'>
                 
-                {/* ₹{props.fare.motorcycle} */}
+                ₹{props.fare?.fare?.motorcycle}
                 </h2>
             </div>
             <div onClick={() => {
@@ -48,7 +50,7 @@ const VehiclePanel = (props) => {
                 </div>
                 <h2 className='text-lg font-semibold'>
                
-                {/* ₹{props.fare.auto} */}
+                ₹{props.fare?.fare?.auto}
                 </h2>
             </div>
         </div>
