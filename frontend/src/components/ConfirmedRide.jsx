@@ -9,6 +9,7 @@ const ConfirmedRide = (props) => {
           const handleConfirm=()=>{
             props.setConfirmRidePanel(false);
             props.setVehicleFound(true)
+            props.createRide()
           }
         
 
@@ -24,14 +25,14 @@ const ConfirmedRide = (props) => {
                     <div className='flex items-center m-5 p-3 gap-5 border-b-2'>
                         <i  className='text-lg ri-map-pin-2-fill'></i>
                         <div><h3 className='text-lg font-medium'>562/11-A</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahemdabad</p>
+                            <p className='text-sm -mt-1 text-gray-600'>{props.pickup}</p>
                         </div>
                     </div>
                     
                         <div className='flex items-center m-5 p-3 gap-5 border-b-2'>
                             <i className='text-lg ri-map-pin-2-fill'></i>
                             <div><h3 className='text-lg font-medium'>562/11-A</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahemdabad</p>
+                                <p className='text-sm -mt-1 text-gray-600'>{props.destination}</p>
                             </div>
                         </div>
 
@@ -39,7 +40,7 @@ const ConfirmedRide = (props) => {
                     
                         <div className='flex items-center m-5 p-3 gap-5 '>
                             <i className='text-lg ri-currency-line'></i>
-                            <div><h3 className='text-lg font-medium'>₹193.20</h3>
+                            <div><h3 className='text-lg font-medium'>₹{props.fare?.fare?.[props.vehicleType]}</h3>
                                 <p className='text-sm -mt-1 text-gray-600'>Cash</p>
                             </div>
                         </div>

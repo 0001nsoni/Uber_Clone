@@ -29,6 +29,7 @@ const Home = () => {
   const [VechicleFound, setVehicleFound] = useState(false);
   const [WaitingForDriver, setWaitingForDriver] = useState(false);
   const [fare,setFare]=useState({});
+  const [vehicleType, setVehicleType ] = useState(null);
 
   useLayoutEffect(() => handleSlideAnimation(vechilePanelRef, vehiclePanel), [vehiclePanel]);
   useLayoutEffect(() => handleSlideAnimation(ConfirmRideRef, ConfirmRidePanel), [ConfirmRidePanel]);
@@ -103,8 +104,23 @@ const Home = () => {
        params:{pickup,destination},
        headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
   })
-  console.log(response.data);
+  console.log(response.data)
 setFare(response.data)
+}
+async function createRide() {
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+      pickup,
+      destination,
+      vehicleType
+  }, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+  })
+  console.log(response.data);
+  console.log(fare);
+
+
 }
 
   return (
@@ -163,10 +179,16 @@ setFare(response.data)
         </div>
       </div>
       <div ref={vechilePanelRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
-        <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+        <VehiclePanel fare={fare}  selectVehicle={setVehicleType} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
       </div>
       <div ref={ConfirmRideRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
-        <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+        <ConfirmedRide  
+        createRide={createRide}
+                    pickup={pickup}
+                    destination={destination}
+                    fare={fare}
+                    vehicleType={vehicleType}
+                     setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={LookRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
         <LookinForDriver setVehicleFound={setVehicleFound} />
