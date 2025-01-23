@@ -28,6 +28,10 @@ const Home = () => {
   const [VechicleFound, setVehicleFound] = useState(false);
   const [WaitingForDriver, setWaitingForDriver] = useState(false);
 
+  useLayoutEffect(() => handleSlideAnimation(vechilePanelRef, vehiclePanel), [vehiclePanel]);
+  useLayoutEffect(() => handleSlideAnimation(ConfirmRideRef, ConfirmRidePanel), [ConfirmRidePanel]);
+  useLayoutEffect(() => handleSlideAnimation(LookRef, VechicleFound), [VechicleFound]);
+  useLayoutEffect(() => handleSlideAnimation(waitingForDriverRef, WaitingForDriver), [WaitingForDriver]);
   const submitHandler = (e) => {
     e.preventDefault();
   };
@@ -52,22 +56,27 @@ const Home = () => {
     });
   };
 
-  useLayoutEffect(() => handleSlideAnimation(vechilePanelRef, vehiclePanel), [vehiclePanel]);
-  useLayoutEffect(() => handleSlideAnimation(ConfirmRideRef, ConfirmRidePanel), [ConfirmRidePanel]);
-  useLayoutEffect(() => handleSlideAnimation(LookRef, VechicleFound), [VechicleFound]);
-  useLayoutEffect(() => handleSlideAnimation(waitingForDriverRef, WaitingForDriver), [WaitingForDriver]);
-
   const fetchSuggestions = async (input, setSuggestions) => {
     try {
+      
+      const token = localStorage.getItem('token');
+      if (!token) {
+        
+        return;
+      }
+
       const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
         params: { input },
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
         }
       });
+
+      
+
       setSuggestions(response.data);
     } catch (error) {
-      console.error('Error fetching suggestions:', error);
+      
     }
   };
 
@@ -84,6 +93,11 @@ const Home = () => {
     fetchSuggestions(value, setDestinationSuggestions);
     setActiveField('destination');
   };
+
+  function findTrip() {
+    setVehiclePanel(true);
+    setPanelOpen(false);
+  }
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -127,6 +141,7 @@ const Home = () => {
               placeholder="Enter your destination"
             />
           </form>
+          <button onClick={() => findTrip()} className="w-full bg-black text-white py-2 px-3 mt-3 text-x font-bold rounded-md">Find Trip</button>
         </div>
         <div ref={panelRef} className="h-0 opacity-0 bg-white">
           <LocationSearchPanel
