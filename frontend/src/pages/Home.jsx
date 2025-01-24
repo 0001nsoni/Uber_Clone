@@ -117,8 +117,7 @@ async function createRide() {
           Authorization: `Bearer ${localStorage.getItem('token')}`
       }
   })
-  console.log(response.data);
-  console.log(fare);
+  
 
 
 }
@@ -191,7 +190,12 @@ async function createRide() {
                      setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={LookRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
-        <LookinForDriver setVehicleFound={setVehicleFound} />
+        <LookinForDriver
+         createRide={createRide}
+         pickup={pickup}
+         destination={destination}
+         fare={fare}
+         vehicleType={vehicleType} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={waitingForDriverRef} className="fixed z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 w-full">
         <WaitForDriver setWaitingForDriver={setWaitingForDriver} />
