@@ -1,721 +1,481 @@
-# Uber Clone Backend
+# Backend API Documentation
 
-## API Endpoints
+## `/users/register` Endpoint
 
-### POST /user/register
+### Description
 
-#### Description
-This endpoint is used to register a new user.
+Registers a new user by creating a user account with the provided information.
 
-#### Request Body
-The request body should be a JSON object containing the following fields:
-- `fullname`: An object containing the user's first name and last name.
-  - `firstname`: A string representing the user's first name. It must be at least 3 characters long.
-  - `lastname`: A string representing the user's last name. It must be at least 3 characters long.
-- `email`: A string representing the user's email. It must be a valid email address.
-- `password`: A string representing the user's password. It must be at least 8 characters long.
+### HTTP Method
 
-Example:
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `fullname` (object):
+  - `firstname` (string, required): User's first name (minimum 3 characters).
+  - `lastname` (string, optional): User's last name (minimum 3 characters).
+- `email` (string, required): User's email address (must be a valid email).
+- `password` (string, required): User's password (minimum 6 characters).
+
+### Example Response
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token
+
+## `/users/login` Endpoint
+
+### Description
+
+Authenticates a user using their email and password, returning a JWT token upon successful login.
+
+### HTTP Method
+
+`POST`
+
+### Endpoint
+
+`/users/login`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `email` (string, required): User's email address (must be a valid email).
+- `password` (string, required): User's password (minimum 6 characters).
+
+### Example Response
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token
+
+## `/users/profile` Endpoint
+
+### Description
+
+Retrieves the profile information of the currently authenticated user.
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Example Response
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+
+
+
+## `/users/logout` Endpoint
+
+### Description
+
+Logout the current user and blacklist the token provided in cookie or headers
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header or cookie:
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token## `/captains/register` Endpoint
+
+### Description
+
+Registers a new captain by creating a captain account with the provided information.
+
+### HTTP Method
+
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `fullname` (object):
+  - `firstname` (string, required): Captain's first name (minimum 3 characters)
+  - `lastname` (string, optional): Captain's last name
+- `email` (string, required): Captain's email address (must be a valid email)
+- `password` (string, required): Captain's password (minimum 6 characters)
+- `vehicle` (object):
+  - `color` (string, required): Vehicle color (minimum 3 characters)
+  - `plate` (string, required): Vehicle plate number (minimum 3 characters)
+  - `capacity` (number, required): Vehicle passenger capacity (minimum 1)
+  - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto')
+
+### Example Response
+
+
+## `/captains/register` Endpoint
+
+### Description
+
+Registers a new captain by creating a captain account with the provided information.
+
+### HTTP Method
+
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `fullname` (object):
+  - `firstname` (string, required): Captain's first name (minimum 3 characters).
+  - `lastname` (string, optional): Captain's last name (minimum 3 characters).
+- `email` (string, required): Captain's email address (must be a valid email).
+- `password` (string, required): Captain's password (minimum 6 characters).
+- `vehicle` (object):
+  - `color` (string, required): Vehicle color (minimum 3 characters).
+  - `plate` (string, required): Vehicle plate number (minimum 3 characters).
+  - `capacity` (number, required): Vehicle passenger capacity (minimum 1).
+  - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto').
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object).
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).   
+  - `email` (string): Captain's email address (must be a valid email).
+  - `password` (string): Captain's password (minimum 6 characters).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color.
+    - `plate` (string): Vehicle plate number.
+    - `capacity` (number): Vehicle passenger capacity.
+    - `vehicleType` (string): Type of vehicle.
+- `token` (String): JWT Token
+
+## `/captains/login` Endpoint
+
+### Description
+
+Authenticates a captain using their email and password, returning a JWT token upon successful login.
+
+### HTTP Method
+
+`POST`
+
+### Endpoint
+
+`/captains/login`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `email` (string, required): Captain's email address (must be a valid email).
+- `password` (string, required): Captain's password (minimum 6 characters).
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object).
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).   
+  - `email` (string): Captain's email address (must be a valid email).
+  - `password` (string): Captain's password (minimum 6 characters).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color.
+    - `plate` (string): Vehicle plate number.
+    - `capacity` (number): Vehicle passenger capacity.
+    - `vehicleType` (string): Type of vehicle.
+- `token` (String): JWT Token
+
+## `/captains/profile` Endpoint
+
+### Description
+
+Retrieves the profile information of the currently authenticated captain.
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object).
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).   
+  - `email` (string): Captain's email address (must be a valid email).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color.
+    - `plate` (string): Vehicle plate number.
+    - `capacity` (number): Vehicle passenger capacity.
+    - `vehicleType` (string): Type of vehicle.
+
+## `/captains/logout` Endpoint
+
+### Description
+
+Logout the current captain and blacklist the token provided in cookie or headers.
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Example Response
+
+- `message` (string): Logout successfully.
+
+
+## `/maps/get-coordinates` Endpoint
+
+### Description
+
+Retrieves the coordinates (latitude and longitude) for a given address.
+
+### HTTP Method
+
+`GET`
+
+### Request Parameters
+
+- `address` (string, required): The address for which to retrieve coordinates.
+
+### Example Request
+
+GET `/maps/get-coordinates?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA`
+
+### Example Response
+
 ```json
 {
-  "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
-  },
-  "email": "john.doe@example.com",
-  "password": "password123"
+  "ltd": 37.4224764,
+  "lng": -122.0842499
 }
 ```
 
-#### Responses
+### Error Response
 
-- **201 Created**
-  - **Description**: User successfully registered.
-  - **Body**: A JSON object containing the authentication token and user details.
-  - **Example**:
-    ```json
-    {
-      "token": "your-auth-token",
-      "user": {
-        "_id": "user-id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com"
-      }
-    }
-    ```
+- `400 Bad Request`: If the address parameter is missing or invalid.
+- `404 Not Found`: If the coordinates for the given address could not be found.
 
-- **400 Bad Request**
-  - **Description**: Invalid input or email already exists.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Invalid Email",
-          "param": "email",
-          "location": "body"
-        }
-      ]
-    }
-    ```
-    or
-    ```json
-    {
-      "error": "Email already exists"
-    }
-    ```
-
-#### Status Codes
-- `201 Created`: The user was successfully registered.
-- `400 Bad Request`: The request was invalid or the email already exists.
-
-### POST /user/login
-
-#### Description
-This endpoint is used to log in an existing user.
-
-#### Request Body
-The request body should be a JSON object containing the following fields:
-- `email`: A string representing the user's email. It must be a valid email address.
-- `password`: A string representing the user's password. It must be at least 6 characters long.
-
-Example:
 ```json
 {
-  "email": "john.doe@example.com",
-  "password": "password123"
+  "message": "Coordinates not found"
 }
 ```
 
-#### Responses
+## `/maps/get-distance-time` Endpoint
 
-- **200 OK**
-  - **Description**: User successfully logged in.
-  - **Body**: A JSON object containing the authentication token and user details.
-  - **Example**:
-    ```json
-    {
-      "token": "your-auth-token",
-      "user": {
-        "_id": "user-id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com"
-      }
-    }
-    ```
+### Description
 
-- **401 Unauthorized**
-  - **Description**: Invalid email or password.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "message": "Invalid email or password"
-    }
-    ```
+Retrieves the distance and estimated travel time between two locations.
 
-#### Status Codes
-- `200 OK`: The user was successfully logged in.
-- `401 Unauthorized`: The email or password was incorrect.
+### HTTP Method
 
-### GET /user/profile
+`GET`
 
-#### Description
-This endpoint is used to get the profile of the authenticated user.
+### Request Parameters
 
-#### Responses
+- `origin` (string, required): The starting address or location.
+- `destination` (string, required): The destination address or location.
 
-- **200 OK**
-  - **Description**: User profile retrieved successfully.
-  - **Body**: A JSON object containing the user details.
-  - **Example**:
-    ```json
-    {
-      "_id": "user-id",
-      "fullname": {
-        "firstname": "John",
-        "lastname": "Doe"
-      },
-      "email": "john.doe@example.com"
-    }
-    ```
+### Example Request
 
-- **401 Unauthorized**
-  - **Description**: No token provided or invalid token.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "message": "Access denied. No token provided."
-    }
-    ```
-    or
-    ```json
-    {
-      "message": "Invalid token."
-    }
-    ```
+```
+GET /maps/get-distance-time?origin=New+York,NY&destination=Los+Angeles,CA
+```
 
-#### Status Codes
-- `200 OK`: The user profile was successfully retrieved.
-- `401 Unauthorized`: The token was not provided or was invalid.
+### Example Response
 
-### GET /user/logout
-
-#### Description
-This endpoint is used to log out the authenticated user.
-
-#### Responses
-
-- **200 OK**
-  - **Description**: User successfully logged out.
-  - **Body**: A JSON object containing a success message.
-  - **Example**:
-    ```json
-    {
-      "message": "Logged out successfully"
-    }
-    ```
-
-- **401 Unauthorized**
-  - **Description**: No token provided or invalid token.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "message": "Access denied. No token provided."
-    }
-    ```
-    or
-    ```json
-    {
-      "message": "Invalid token."
-    }
-    ```
-
-#### Status Codes
-- `200 OK`: The user was successfully logged out.
-- `401 Unauthorized`: The token was not provided or was invalid.
-
-### POST /captain/register
-
-#### Description
-This endpoint is used to register a new captain.
-
-#### Request Body
-The request body should be a JSON object containing the following fields:
-- `fullname`: An object containing the captain's first name and last name.
-  - `firstname`: A string representing the captain's first name. It must be at least 3 characters long.
-  - `lastname`: A string representing the captain's last name. It must be at least 3 characters long.
-- `email`: A string representing the captain's email. It must be a valid email address.
-- `password`: A string representing the captain's password. It must be at least 6 characters long.
-- `vehicle`: An object containing the vehicle details.
-  - `color`: A string representing the vehicle's color. It must be at least 3 characters long.
-  - `plate`: A string representing the vehicle's plate number. It must be at least 3 characters long.
-  - `capacity`: An integer representing the vehicle's capacity. It must be at least 1.
-  - `vehicleType`: A string representing the vehicle type. It must be one of `auto`, `car`, or `motorcycle`.
-
-Example:
 ```json
 {
-  "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
+  "distance": {
+    "text": "2,789 miles",
+    "value": 4486540
   },
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "vehicle": {
-    "color": "red",
-    "plate": "MP 04 XV 6203",
-    "capacity": 3,
-    "vehicleType": "car"
+  "duration": {
+    "text": "1 day 18 hours",
+    "value": 154800
   }
 }
 ```
 
-#### Responses
+### Error Response
 
-- **201 Created**
-  - **Description**: Captain successfully registered.
-  - **Body**: A JSON object containing the authentication token and captain details.
-  - **Example**:
-    ```json
-    {
-      "token": "your-auth-token",
-      "captain": {
-        "_id": "captain-id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com",
-        "vehicle": {
-          "color": "red",
-          "plate": "MP 04 XV 6203",
-          "capacity": 3,
-          "vehicleType": "car"
-        }
-      }
-    }
-    ```
+- `400 Bad Request`: If the origin or destination parameter is missing or invalid.
+- `404 Not Found`: If the distance and time for the given locations could not be found.
 
-- **400 Bad Request**
-  - **Description**: Invalid input or email already exists.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Invalid Email",
-          "param": "email",
-          "location": "body"
-        }
-      ]
-    }
-    ```
-    or
-    ```json
-    {
-      "error": "Captain already exists"
-    }
-    ```
-
-#### Status Codes
-- `201 Created`: The captain was successfully registered.
-- `400 Bad Request`: The request was invalid or the email already exists.
-
-### POST /captain/login
-
-#### Description
-This endpoint is used to log in an existing captain.
-
-#### Request Body
-The request body should be a JSON object containing the following fields:
-- `email`: A string representing the captain's email. It must be a valid email address.
-- `password`: A string representing the captain's password. It must be at least 6 characters long.
-
-Example:
 ```json
 {
-  "email": "john.doe@example.com",
-  "password": "password123"
+  "message": "No routes found"
 }
 ```
 
-#### Responses
+## `/maps/get-suggestions` Endpoint
 
-- **200 OK**
-  - **Description**: Captain successfully logged in.
-  - **Body**: A JSON object containing the authentication token and captain details.
-  - **Example**:
-    ```json
-    {
-      "token": "your-auth-token",
-      "captain": {
-        "_id": "captain-id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com",
-        "vehicle": {
-          "color": "red",
-          "plate": "MP 04 XV 6203",
-          "capacity": 3,
-          "vehicleType": "car"
-        }
-      }
-    }
-    ```
+### Description
 
-- **400 Bad Request**
-  - **Description**: Invalid email or password.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "error": "Invalid Email or Password"
-    }
-    ```
+Retrieves autocomplete suggestions for a given input string.
 
-#### Status Codes
-- `200 OK`: The captain was successfully logged in.
-- `400 Bad Request`: The email or password was incorrect.
+### HTTP Method
 
-### GET /captain/profile
+`GET`
 
-#### Description
-This endpoint is used to get the profile of the authenticated captain.
+### Request Parameters
 
-#### Responses
+- `input` (string, required): The input string for which to retrieve suggestions.
 
-- **200 OK**
-  - **Description**: Captain profile retrieved successfully.
-  - **Body**: A JSON object containing the captain details.
-  - **Example**:
-    ```json
-    {
-      "captain": {
-        "_id": "captain-id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com",
-        "vehicle": {
-          "color": "red",
-          "plate": "MP 04 XV 6203",
-          "capacity": 3,
-          "vehicleType": "car"
-        }
-      }
-    }
-    ```
+### Example Request
 
-- **401 Unauthorized**
-  - **Description**: No token provided or invalid token.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "message": "Access denied. No token provided."
-    }
-    ```
-    or
-    ```json
-    {
-      "message": "Invalid token."
-    }
-    ```
+```
+GET /maps/get-suggestions?input=1600+Amphitheatre
+```
 
-#### Status Codes
-- `200 OK`: The captain profile was successfully retrieved.
-- `401 Unauthorized`: The token was not provided or was invalid.
+### Example Response
 
-### GET /captain/logout
+```json
+[
+  "1600 Amphitheatre Parkway, Mountain View, CA, USA",
+  "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA"
+]
+```
 
-#### Description
-This endpoint is used to log out the authenticated captain.
+### Error Response
 
-#### Responses
-
-- **200 OK**
-  - **Description**: Captain successfully logged out.
-  - **Body**: A JSON object containing a success message.
-  - **Example**:
-    ```json
-    {
-      "message": "Logout successfully"
-    }
-    ```
-
-- **401 Unauthorized**
-  - **Description**: No token provided or invalid token.
-  - **Body**: A JSON object containing the error message.
-  - **Example**:
-    ```json
-    {
-      "message": "Access denied. No token provided."
-    }
-    ```
-    or
-    ```json
-    {
-      "message": "Invalid token."
-    }
-    ```
-
-#### Status Codes
-- `200 OK`: The captain was successfully logged out.
-- `401 Unauthorized`: The token was not provided or was invalid.
-
-### GET /get-fare
-
-#### Description
-This endpoint calculates the fare between two given locations (pickup and destination).
-
-#### Query Parameters
-- `pickup`: A string representing the starting location. It must be at least 3 characters long.
-- `destination`: A string representing the destination location. It must be at least 3 characters long.
-
-#### Example Request:
-
-#### Responses
-
-- **200 OK**
-  - **Description**: Fare successfully calculated.
-  - **Body**: A JSON object containing the fare details.
-  - **Example**:
-    ```json
-    {
-      "success": true,
-      "fare": 500
-    }
-    ```
-
-- **400 Bad Request**
-  - **Description**: Either the `pickup` or `destination` parameter is invalid or missing.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Pickup must be a string with a minimum length of 3 characters.",
-          "param": "pickup",
-          "location": "query"
-        },
-        {
-          "msg": "Destination must be a string with a minimum length of 3 characters.",
-          "param": "destination",
-          "location": "query"
-        }
-      ]
-    }
-    ```
-
-- **500 Internal Server Error**
-  - **Description**: Internal server error, possibly due to a failure with the external fare calculation service.
-
-#### Status Codes
-- `200 OK`: The fare was successfully calculated.
-- `400 Bad Request`: The request was invalid, missing required parameters, or had incorrect data.
-- `500 Internal Server Error`: There was an issue with the server or an external service.
-
----
-
-# Maps API Routes Documentation
-
-This document provides the details for the available API endpoints related to maps in the application.
-
-## Routes
-
-### 1. **GET `/get-coordinates`**
-
-#### Description
-This endpoint retrieves the geographic coordinates (latitude and longitude) of a given address.
-
-#### Query Parameters
-- `address`: A string representing the address you want to fetch coordinates for. It must be at least 3 characters long.
-
-#### Example Request:
-
-#### Responses
-
-- **200 OK**
-  - **Description**: Coordinates successfully fetched.
-  - **Body**: A JSON object containing the latitude and longitude of the given address.
-  - **Example**:
-    ```json
-    {
-      "lat": 40.7128,
-      "lng": -74.0060
-    }
-    ```
-
-- **400 Bad Request**
-  - **Description**: The `address` parameter is invalid or missing.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Address must be a string with a minimum length of 3 characters.",
-          "param": "address",
-          "location": "query"
-        }
-      ]
-    }
-    ```
-
-- **500 Internal Server Error**
-  - **Description**: Internal server error, possibly due to a failure with the external geolocation service.
-
----
-
-### 2. **GET `/get-distance-time`**
-
-#### Description
-This endpoint calculates the distance and travel time between two given locations (origin and destination).
-
-#### Query Parameters
-- `origin`: A string representing the starting location. It must be at least 3 characters long.
-- `destination`: A string representing the destination location. It must be at least 3 characters long.
-
-#### Example Request:
-
-#### Responses
-
-- **200 OK**
-  - **Description**: Distance and travel time successfully fetched.
-  - **Body**: A JSON object containing the distance and duration between the origin and destination.
-  - **Example**:
-    ```json
-    {
-      "success": true,
-      "distance": "2,450 miles",
-      "duration": "40 hours"
-    }
-    ```
-
-- **400 Bad Request**
-  - **Description**: Either the `origin` or `destination` parameter is invalid or missing.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Origin must be a string with a minimum length of 3 characters.",
-          "param": "origin",
-          "location": "query"
-        }
-      ]
-    }
-    ```
-
-- **500 Internal Server Error**
-  - **Description**: Internal server error, possibly due to a failure with the external distance service.
-
----
-
-### 3. **GET `/get-suggestions`**
-
-#### Description
-This endpoint provides autocomplete suggestions for locations based on the input query.
-
-#### Query Parameters
-- `input`: A string representing the search query. It must be at least 3 characters long.
-
-#### Example Request:
-
-
-#### Responses
-
-- **200 OK**
-  - **Description**: Autocomplete suggestions successfully fetched.
-  - **Body**: A JSON array containing the suggestions.
-  - **Example**:
-    ```json
-    [
-      {
-        "description": "New York, NY, USA",
-        "place_id": "ChIJOwg_06VPYjARJZPu5ryJ5Y4"
-      },
-      {
-        "description": "New Orleans, LA, USA",
-        "place_id": "ChIJM6dPZzIPIIYRv-_wzO9VxOs"
-      }
-    ]
-    ```
-
-- **400 Bad Request**
-  - **Description**: The `input` parameter is invalid or missing.
-  - **Body**: A JSON object containing the error details.
-  - **Example**:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Input must be a string with a minimum length of 3 characters.",
-          "param": "input",
-          "location": "query"
-        }
-      ]
-    }
-    ```
-
-- **500 Internal Server Error**
-  - **Description**: Internal server error, possibly due to a failure with the external autocomplete service.
-
----
-
-### Status Codes
-
-- **200 OK**: The request was successful.
-- **400 Bad Request**: The request was invalid, missing required parameters, or had incorrect data.
-- **500 Internal Server Error**: There was an issue with the server or an external service.
-
----
-
-**Note:** All of these routes require the `authUser` middleware to ensure the user is authenticated.
-
-# Ride Creation API
-
-This project provides an API for creating rides with pickup and destination details, along with fare calculation based on vehicle type (auto, car, motorcycle). The API ensures authentication and validation for each ride creation request.
-
-## Features
-
-- **Authentication**: Requires valid authentication to create a ride.
-- **Validation**: Ensures the pickup, destination, and vehicle type are valid.
-- **Fare Calculation**: Calculates fare based on vehicle type, distance, and time.
-
-## Technologies Used
-
-- **Node.js**: Backend runtime environment.
-- **Express.js**: Web framework for Node.js.
-- **Express Validator**: For request validation.
-- **JWT**: For authentication and token verification.
-- **MongoDB**: Database for storing ride data.
-  
-## API Endpoint
-
-### POST `/rides/create`
-
-This endpoint creates a new ride. It requires the following fields in the request body:
-
-#### Request Body
-
-- **pickup** (string): The pickup address (minimum length of 3 characters).
-- **destination** (string): The destination address (minimum length of 3 characters).
-- **vehicleType** (string): The type of vehicle for the ride. Accepted values are: `'auto'`, `'car'`, `'motorcycle'`.
-
-#### Example Request
+- `400 Bad Request`: If the input parameter is missing or invalid.
+- `500 Internal Server Error`: If there is an error retrieving suggestions.
 
 ```json
 {
-  "pickup": "Aray College jaipur",
-  "destination": "Aandhi, Rajasthan, India",
-  "vehicleType": "car"
+  "message": "Unable to fetch suggestions"
 }
 ```
 
-#### Successful Response
+## `/rides/create` Endpoint
+
+### Description
+
+Creates a new ride with the provided information.
+
+### HTTP Method
+
+`POST`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `pickup` (string, required): The pickup address (minimum 3 characters).
+- `destination` (string, required): The destination address (minimum 3 characters).
+- `vehicleType` (string, required): The type of vehicle (must be 'auto', 'car', or 'moto').
+
+### Example Response
+
+- `ride` (object):
+  - `user` (string): User ID.
+  - `pickup` (string): Pickup address.
+  - `destination` (string): Destination address.
+  - `fare` (number): Fare amount.
+  - `status` (string): Ride status.
+  - `duration` (number): Duration in seconds.
+  - `distance` (number): Distance in meters.
+  - `otp` (string): OTP for the ride.
+
+### Error Response
+
+- `400 Bad Request`: If any required field is missing or invalid.
+- `500 Internal Server Error`: If there is an error creating the ride.
+
 ```json
 {
- "message": "Ride created successfully",
-  "ride": {
-    "_id": "678cb961c78a07850482b09b",
-    "user": "678207e858971e6aafb95bd8",
-    "pickup": "Aray College jaipur",
-    "destination": "Aandhi, Rajasthan, India",
-    "fare": 866,
-    "status": "pending",
-    "distance": 39.2,
-    "duration": 76,
-    "__v": 0
+  "message": "Error message"
 }
 ```
 
-#### Error Response
+
+## `/rides/get-fare` Endpoint
+
+### Description
+
+Retrieves the fare estimate for a ride between the provided pickup and destination addresses.
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header:
+`Authorization:
+
+ Bear
+
+er <token>`
+
+### Request Parameters
+
+- `pickup` (string, required): The pickup address (minimum 3 characters).
+- `destination` (string, required): The destination address (minimum 3 characters).
+
+### Example Request
+
+```
+GET /rides/get-fare?pickup=1600+Amphitheatre+Parkway,+Mountain+View,+CA&destination=1+Infinite+Loop,+Cupertino,+CA
+```
+
+### Example Response
 
 ```json
 {
-  "errors": [
-    {
-      "msg": "Invalid Pickup address",
-      "param": "pickup",
-      "location": "body"
-    }
-  ]
+  "auto": 50.0,
+  "car": 75.0,
+  "moto": 40.0
+}
+```
+
+### Error Response
+
+- `400 Bad Request`: If any required parameter is missing or invalid.
+- `500 Internal Server Error`: If there is an error calculating the fare.
+
+```json
+{
+  "message": "Error message"
 }
 ```

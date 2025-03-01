@@ -1,10 +1,8 @@
-const userModel = require('../models/user.model'); // Corrected path
+const userModel = require('../models/user.model');
+
 
 module.exports.createUser = async ({
-    firstname,
-    lastname,
-    email,
-    password
+    firstname, lastname, email, password
 }) => {
     if (!firstname || !email || !password) {
         throw new Error('All fields are required');
@@ -16,6 +14,7 @@ module.exports.createUser = async ({
         },
         email,
         password
-    });
+    })
+
     return user;
-};
+}

@@ -1,58 +1,63 @@
 const userModel = require('../models/user.model');
-const captainModel = require('../models/captain.model'); // Add this line
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const BlacklistToken = require('../models/blacklistToken.model');
+const blackListTokenModel = require('../models/blackListToken.model');
+const captainModel = require('../models/captain.model');
+
 
 module.exports.authUser = async (req, res, next) => {
-    const token = (req.cookies && req.cookies.token) || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];
+
     if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
+        return res.status(401).json({ message: 'Unauthorized' });
     }
-    const isBlacklisted = await BlacklistToken.exists({ token });
+
+
+    const isBlacklisted = await blackListTokenModel.findOne({ token: token });
+
     if (isBlacklisted) {
-        return res.status(401).json({ message: 'Access denied. Token blacklisted.' });
+        return res.status(401).json({ message: 'Unauthorized' });
     }
+
     try {
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await userModel.findById(decoded._id);
-        if (!req.user) {
-            return res.status(401).json({ message: 'Access denied. User not found.' });
-        }
-        next();
-    } catch (ex) {
-        res.status(400).json({ message: 'Invalid token.' });
+        const user = await userModel.findById(decoded._id)
+
+        req.user = user;
+
+        return next();
+
+    } catch (err) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
-};
+}
 
 module.exports.authCaptain = async (req, res, next) => {
-    const token =
-        (req.cookies && req.cookies.token) ||
-        (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];
+
 
     if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const isBlacklisted = await blackListTokenModel.findOne({ token: token });
+
+
+
+    if (isBlacklisted) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 
     try {
-        // Check if the token is blacklisted
-        const isBlacklisted = await BlacklistToken.findOne({ token });
-        if (isBlacklisted) {
-            return res.status(401).json({ message: 'Access denied. Token blacklisted.' });
-        }
-
-        // Verify and decode the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Find the captain based on the decoded token
-        const captain = await captainModel.findById(decoded._id);
-        if (!captain) {
-            return res.status(401).json({ message: 'Access denied. Captain not found.' });
-        }
-
-        // Attach the captain to the request object
+        const captain = await captainModel.findById(decoded._id)
         req.captain = captain;
-        next();
+
+        return next()
     } catch (err) {
-        res.status(400).json({ message: 'Invalid token.' });
+        console.log(err);
+
+        res.status(401).json({ message: 'Unauthorized' });
     }
-};
+}
